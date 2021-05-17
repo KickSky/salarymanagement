@@ -3,12 +3,17 @@ package com.rakib.salarymanagement.service.impl;
 import com.rakib.salarymanagement.dto.BankAccountDto;
 import com.rakib.salarymanagement.dto.Response;
 import com.rakib.salarymanagement.entity.BankAccount;
+import com.rakib.salarymanagement.enums.ActiveStatus;
 import com.rakib.salarymanagement.repositories.BankAccountRepository;
 import com.rakib.salarymanagement.service.BankAccountService;
 import com.rakib.salarymanagement.util.ResponseBuilder;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
@@ -50,6 +55,20 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public Response getAll() {
-        return null;
+        List<BankAccount> bankAccountList = bankAccountRepository.list(ActiveStatus.ACTIVE.getValue());
+        if (bankAccountList.isEmpty() || bankAccountList == null)
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "No Bank Account Is available");
+        List<BankAccountDto> list = getBankAccount(bankAccountList);
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", list);
+    }
+
+    private List<BankAccountDto> getBankAccount(List<BankAccount> bankAccounts) {
+        List<BankAccountDto> bankAccountDtoList = new ArrayList<>();
+        bankAccounts.forEach(bankAccount -> {
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            BankAccountDto bankAccountDto = modelMapper.map(bankAccount, BankAccountDto.class);
+            bankAccountDtoList.add(bankAccountDto);
+        });
+        return bankAccountDtoList;
     }
 }
