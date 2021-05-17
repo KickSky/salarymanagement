@@ -13,4 +13,7 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
 
     @Query("from BankAccount where activeStatus = (:activeStatus) ")
     List<BankAccount> list(@Param("activeStatus") Integer activeStatus);
+
+    @Query("from BankAccount where id = :bankId and activeStatus = :activeStatus")
+    BankAccount getByIdAndActiveStatusTrue(@Param("bankId") Long bankId, @Param("activeStatus") Integer activeStatus);
 }

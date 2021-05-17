@@ -45,7 +45,13 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public Response getById(Long id) {
-        return null;
+        BankAccount bankAccount = bankAccountRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (bankAccount != null) {
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            BankAccountDto bankAccountDto = modelMapper.map(bankAccount, BankAccountDto.class);
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " retrieved Successfully", bankAccountDto);
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
