@@ -31,4 +31,14 @@ public class BankAccountController {
     public Response getBankAccountById(@PathVariable("bankId") Long bankId) {
         return bankAccountService.getById(bankId);
     }
+
+    @DeleteMapping(value = UrlConstraint.BankManagement.DELETE)
+    public Response delColor(@PathVariable("bankId") Long bankId) {
+        return bankAccountService.del(bankId);
+    }
+
+    @PutMapping(value = UrlConstraint.BankManagement.PUT)
+    public Response updateColor(@RequestBody BankAccountDto bankAccountDto, @PathVariable("bankId") Long bankId) {
+        return bankAccountService.update(bankId, bankAccountDto);
+    }
 }

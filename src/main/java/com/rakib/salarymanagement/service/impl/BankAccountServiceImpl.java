@@ -40,7 +40,18 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public Response update(Long id, BankAccountDto bankAccountDto) {
-        return null;
+        BankAccount bankAccount;
+        bankAccount = bankAccountRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (bankAccount != null) {
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            bankAccount = modelMapper.map(bankAccountDto, BankAccount.class);
+            bankAccount = bankAccountRepository.save(bankAccount);
+            if (bankAccount != null) {
+                return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, root + " Has been Updated", null);
+            }
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
@@ -56,7 +67,13 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public Response del(Long id) {
-        return null;
+        BankAccount bankAccount = bankAccountRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (bankAccount != null) {
+            bankAccount.setActiveStatus(ActiveStatus.DELETE.getValue());
+            bankAccountRepository.save(bankAccount);
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " Has been Deleted Successfully", "");
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
