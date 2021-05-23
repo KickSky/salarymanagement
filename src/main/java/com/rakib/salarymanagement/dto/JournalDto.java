@@ -10,6 +10,4 @@ public class JournalDto extends BaseDto {
     private Long ToAccount;
     private EmployeeDto employeeId;
     private double amount;
-
-
 }
