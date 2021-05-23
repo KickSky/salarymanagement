@@ -85,6 +85,11 @@ public class BankAccountServiceImpl implements BankAccountService {
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", list);
     }
 
+    @Override
+    public BankAccount getByAccountName(String accountName) {
+        return bankAccountRepository.getByAccountName(accountName);
+    }
+
     private List<BankAccountDto> getBankAccount(List<BankAccount> bankAccounts) {
         List<BankAccountDto> bankAccountDtoList = new ArrayList<>();
         bankAccounts.forEach(bankAccount -> {
@@ -94,4 +99,5 @@ public class BankAccountServiceImpl implements BankAccountService {
         });
         return bankAccountDtoList;
     }
+
 }
