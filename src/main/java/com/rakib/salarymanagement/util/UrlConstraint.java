@@ -13,4 +13,12 @@ public final class UrlConstraint {
         public static final String GET = "/{bankId}";
         public static final String PUT = "/{bankId}";
     }
+
+    public static class LowestSalaryManagement {
+        public static final String ROOT = VERSION + API + "/lowestSalary";
+        public static final String DELETE = "/{lowestSalaryId}";
+        public static final String GET = "/{lowestSalaryId}";
+        public static final String PUT = "/{lowestSalaryId}";
+
+    }
 }
