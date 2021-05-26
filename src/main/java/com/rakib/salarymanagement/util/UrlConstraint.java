@@ -21,4 +21,12 @@ public final class UrlConstraint {
         public static final String PUT = "/{lowestSalaryId}";
 
     }
+
+    public static class EmployeeManagement {
+        public static final String ROOT = VERSION + API + "/employee";
+        public static final String DELETE = "/{employeeId}";
+        public static final String GET = "/{employeeId}";
+        public static final String PUT = "/{employeeId}";
+
+    }
 }
