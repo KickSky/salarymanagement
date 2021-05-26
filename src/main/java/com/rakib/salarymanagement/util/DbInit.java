@@ -24,7 +24,7 @@ public class DbInit {
         if (bankAccount == null) {
             BankAccount bc = new BankAccount();
             bc.setAccountName(UtilConstant.companyBankAccountName);
-            bc.setAccountNumber(100L);
+            bc.setAccountNumber("std1000123");
             bc.setAccountType(BankAccountType.SAVINGS);
             bc.setBankName("Standard Bank");
             bc.setBranchName("Farmgate");

@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Entity
 public class BankAccount extends BaseEntity {
     private String accountName;
-    private Long accountNumber;
+    private String accountNumber;
     private BankAccountType accountType;
     private double currentBalance;
     private String bankName;
